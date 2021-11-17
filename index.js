@@ -9,6 +9,7 @@ export default function сreateAdapter(url,options = {}) {
 	options.username = options.username || '.';
 	options.password = options.password || '.';
 	options.maxContentLength = (options.maxContentLength || (1024 * 1024 * 1024)) | 0;
+	options.maxBodyLength = (options.maxBodyLength || (1024 * 1024 * 1024)) | 0;
 	const client = createClient(url,options);
 	const wrapper = {};
 
@@ -23,7 +24,8 @@ export default function сreateAdapter(url,options = {}) {
 		if(!path) throw new Error('Path not specified');
 		client.getFileContents(path, {
 			format: encoding,
-			maxContentLength: options.maxContentLength
+			maxContentLength: options.maxContentLength,
+			maxBodyLength: options.maxBodyLength
 		}).then(
 			data => callback(false, data)
 		).catch(
@@ -47,7 +49,8 @@ export default function сreateAdapter(url,options = {}) {
 		if(!path) throw new Error('Path not specified');
 		client.putFileContents(path, data, {
 			overwrite: true,
-			maxContentLength: options.maxContentLength
+			maxContentLength: options.maxContentLength,
+			maxBodyLength: options.maxBodyLength
 		}).then(
 			() => callback(false)
 		).catch(
