@@ -8,7 +8,7 @@ function getEncodingName(encoding) {
 export default function сreateAdapter(url,options = {}) {
 	options.username = options.username || '.';
 	options.password = options.password || '.';
-	options.maxContentLength = (options.maxContentLength || Number.MAX_SAFE_INTEGER) | 0;
+	options.maxContentLength = (options.maxContentLength || (1024 * 1024 * 1024)) | 0;
 	const client = createClient(url,options);
 	const wrapper = {};
 
@@ -21,7 +21,10 @@ export default function сreateAdapter(url,options = {}) {
 		}
 		if(typeof(callback) !== 'function') callback = f=>0;
 		if(!path) throw new Error('Path not specified');
-		client.getFileContents(path, {format: encoding}).then(
+		client.getFileContents(path, {
+			format: encoding,
+			maxContentLength: options.maxContentLength
+		}).then(
 			data => callback(false, data)
 		).catch(
 			err => callback(err, null)
@@ -42,7 +45,10 @@ export default function сreateAdapter(url,options = {}) {
 		}
 		if(typeof(callback) !== 'function') callback = f=>0;
 		if(!path) throw new Error('Path not specified');
-		client.putFileContents(path, data, {overwrite: true}).then(
+		client.putFileContents(path, data, {
+			overwrite: true,
+			maxContentLength: options.maxContentLength
+		}).then(
 			() => callback(false)
 		).catch(
 			err => callback(err || true)
