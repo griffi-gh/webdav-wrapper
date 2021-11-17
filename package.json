@@ -1,0 +1,13 @@
+{
+  "name": "webdav-fs-ish",
+  "version": "1.0.0",
+  "description": "Wrapper for webdav-client",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {},
+  "author": "griffi-gh",
+  "license": "ISC",
+  "dependencies": {
+    "webdav": "^4.7.0"
+  }
+}
